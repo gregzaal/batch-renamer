@@ -20,7 +20,7 @@ bl_info = {
     "name": "Batch Renamer",
     "description": "A set of tools to help you rename multple objects at once",
     "author": "Greg Zaal",
-    "version": (1, 3),
+    "version": (1, 4),
     "blender": (2, 78, 0),
     "location": "Properties Editor > Object",
     "warning": "",
@@ -63,8 +63,9 @@ def do_rename(context):
     #run once to change all names and make sure of no duplicates in the next run
     for obj in context.selected_objects:
         obj.name="0n3R3d1cul0uslyUnl1kelyN4me"
-        if obj.data.users == 1:
-            obj.data.name = "0n3R3d1cul0uslyUnl1kelyN4me"
+        if hasattr(obj.data, 'users'):
+            if obj.data.users == 1:
+                obj.data.name = "0n3R3d1cul0uslyUnl1kelyN4me"
         numobjs=numobjs+1
         
     #auto padding
@@ -126,8 +127,9 @@ def do_rename(context):
         suffix=separator+presuffix
         n = name+suffix
         obj.name = n  # rename
-        if obj.data.users == 1:
-            obj.data.name = n
+        if hasattr(obj.data, 'users'):
+            if obj.data.users == 1:
+                obj.data.name = n
         counter=counter+1
     
     if context.scene.RNContinuedNums:
